@@ -1,0 +1,1 @@
+<?php include('app/views/includes/public_header.php'); ?>
