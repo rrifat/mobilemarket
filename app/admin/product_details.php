@@ -90,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                         </table>
                     </div> <!-- /.table-responsive -->
                 </div> <!-- .panel-body -->
+                <a href="invoices.php" class="btn btn-default btn-lg pull-right">Back To Invoices</a>
             </div>
         </div> <!-- .row -->
     </div> <!-- .container-fluid -->

@@ -20,17 +20,15 @@ class Product
 
     public function product_insert($data, $file)
     {
-        $productName = $this->format->validation($data['product_name']);
-        $catId = $this->format->validation($data['cat_id']);
-//        $brandId = $this->format->validation($data['brand_id']);
-        $productBody = $this->format->validation($data['product_body']);
-        $productPrice = $this->format->validation($data['product_price']);
-        $totalProduct = $this->format->validation($data['total_product']);
-        $productType = $this->format->validation($data['product_type']);
+//        $productName = $this->format->validation($data['product_name']);
+//        $catId = $this->format->validation($data['cat_id']);
+//        $productBody = $this->format->validation($data['product_body']);
+//        $productPrice = $this->format->validation($data['product_price']);
+//        $totalProduct = $this->format->validation($data['total_product']);
+//        $productType = $this->format->validation($data['product_type']);
 
         $productName = mysqli_real_escape_string($this->database->link, $data['product_name']);
         $catId = mysqli_real_escape_string($this->database->link, $data['cat_id']);
-//        $brandId = mysqli_real_escape_string($this->database->link, $data['brand_id']);
         $productBody = mysqli_real_escape_string($this->database->link, $data['product_body']);
         $productPrice = mysqli_real_escape_string($this->database->link, $data['product_price']);
         $totalProduct = mysqli_real_escape_string($this->database->link, $data['total_product']);
@@ -135,6 +133,7 @@ DELIMETER;
         $productPrice = $this->format->validation($data['product_price']);
         $productType = $this->format->validation($data['product_type']);
 
+        $totalProduct = mysqli_real_escape_string($this->database->link, $data['total_product']);
         $productName = mysqli_real_escape_string($this->database->link, $data['product_name']);
         $catId = mysqli_real_escape_string($this->database->link, $data['cat_id']);
 //        $brandId = mysqli_real_escape_string($this->database->link, $data['brand_id']);
@@ -150,7 +149,7 @@ DELIMETER;
         $div = explode(".", $fileName);
         $fileExt = strtolower(end($div));
         $uniqueImage = substr(md5(time()), 0, 10) . '.' . $fileExt;
-        $uploadImage = "upload/" . $uniqueImage;
+        $uploadImage = $_SERVER['DOCUMENT_ROOT']."/mobilemarket/resource/images/productsimages/" . $uniqueImage;
 
         if ($productName == "" || $catId == "" || $productBody == "" || $productPrice == "" || $productType == "") {
             $msg = "<span style='color: red; font-size: 18px;'>" . "Product field must not be empty" . "</span>";
@@ -170,8 +169,9 @@ DELIMETER;
                                cat_id = '$catId',
                                product_body = '$productBody',
                                product_price = '$productPrice',
-                               product_image = '$uploadImage',
-                               product_type = '$productType'
+                               product_image = '$uniqueImage',
+                               product_type = '$productType',
+                               total_product= '$totalProduct'
                                WHERE product_id  = '$id'";
 
                     $result = $this->database->update($query);
@@ -190,7 +190,8 @@ DELIMETER;
                                cat_id = '$catId',
                                product_body = '$productBody',
                                product_price = '$productPrice',
-                               product_type = '$productType'
+                               product_type = '$productType',
+                               total_product= '$totalProduct'
                                WHERE product_id  = '$id'";
 
                 $result = $this->database->update($query);

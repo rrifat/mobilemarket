@@ -11,15 +11,14 @@ include_once "classes/Invoice.php";
 $invoice = new Invoice();
 $dates = $invoice->get_invoice_dates();
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $invoice_date = $_REQUEST['invoice_dates'];
+if (isset($_GET['invoice_dates'])) {
+    $invoice_date = $_GET['invoice_dates'];
     $invoices = $invoice->find_by_date($invoice_date);
-} else {
-    $all_invoices = $invoice->get_all();
 }
 if (isset($_GET['invoice-id'])) {
-    $customer_id = $_REQUEST['invoice-id'];
-    $invoice->change_shipping_status($customer_id);
+    $invoice_id = $_REQUEST['invoice-id'];
+    $invoice->change_shipping_status($invoice_id);
+    $invoices = $invoice->find_by_date($invoice_date);
 }
 ?>
 <?php include 'inc/header.php'; ?>
@@ -28,16 +27,17 @@ if (isset($_GET['invoice-id'])) {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
-                    <form action="" method="POST">
+                    <form action="" method="GET">
                         <div class="form-group">
                             <h3>Select Date</h3>
                             <br>
                             <select name="invoice_dates" class="form-control">
+                                <option>Select</option>
                                 <?php if (isset($dates)): ?>
                                     <?php while ($row = $dates->fetch_assoc()): ?>
                                         <option value="<?=$row['invoice_dates']?>"
-                                            <?php if ($_SERVER['REQUEST_METHOD'] == "POST"):?>
-                                                <?php if ($_REQUEST['invoice_dates'] == $row['invoice_dates']):?>
+                                            <?php if (isset($_GET['invoice_dates'])):?>
+                                                <?php if ($_GET['invoice_dates'] == $row['invoice_dates']):?>
                                                     selected
                                                 <?php endif;?>
                                             <?php endif;?>
@@ -75,10 +75,10 @@ if (isset($_GET['invoice-id'])) {
                                             <td><?=date("g:i:s a", strtotime($row['invoice_time']))?></td>
                                             <td>
                                                 <?php if ($row['shipping_status'] == 1):?>
-                                                    <a href="?invoice-id=<?=$row['invoice_id']?>" class="btn btn-success">Product Delivered</a>
+                                                    <a class="btn btn-success del">Product Delivered</a>
                                                 <?php endif; ?>
                                                 <?php if ($row['shipping_status'] == 0):?>
-                                                    <a href="?invoice-id=<?=$row['invoice_id']?>?>" class="btn btn-primary">Confirm</a>
+                                                    <a href="?invoice-id=<?=$row['invoice_id']?>&invoice_dates=<?=$invoice_date?>" class="btn btn-primary">Confirm</a>
                                                 <?php endif;?>
                                             </td>
                                             <td>
@@ -97,7 +97,5 @@ if (isset($_GET['invoice-id'])) {
             </div>
         </div> <!-- /.container-fluid -->
     </div><!-- /#page-wrapper -->
-<script type="text/javascript">
-
-</script>
+<script type="text/javascript"></script>
 <?php include 'inc/footer.php'; ?>
