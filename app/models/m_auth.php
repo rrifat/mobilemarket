@@ -96,9 +96,10 @@ class Auth
 	function register_customer($name,$username,$password,$email,$address){
 
 		global $Database;
-
-		if ($stmt = $Database->prepare("INSERT into customers (full_name, username, password, email, address) VALUES (?,?,?,?,?)")) {
-			$stmt->bind_param("sssss", $name,$username,md5($password . $this->salt),$email,$address);
+//        $created_at = new DateTime('now', new \DateTimeZone(DateTimeZone::UTC));
+        $created_at = date("Y-m-d");
+		if ($stmt = $Database->prepare("INSERT into customers (full_name, username, password, email, address, created_at) VALUES (?,?,?,?,?,?)")) {
+			$stmt->bind_param("sssss", $name,$username,md5($password . $this->salt),$email,$address, $created_at);
 			$stmt->execute();
 			$stmt->close();
 		}

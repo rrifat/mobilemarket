@@ -228,3 +228,10 @@ ul.alert-dropdown {
 input[type="file"] {
     padding: 0px;
 }
+
+#container {
+    min-width: 310px;
+    max-width: 800px;
+    height: 400px;
+    margin: 0 auto
+}
