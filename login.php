@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
 
 	$check = $Auth->check_admin_login($username, $password);
 	if ($check == TRUE) {
-
+        $_SESSION['admin_login'] = true;
 		$Template->redirect('app/admin/dashboard.php');
 	}
 		

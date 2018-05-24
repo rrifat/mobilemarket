@@ -11,11 +11,11 @@
         </button>
         <a class="navbar-brand" href="index.html">wellshop admin</a>
     </div>
-<!--    --><?php
-//      if (isset($_GET['action']) && $_GET['action'] == "logout") {
-//           Session::destroy();
-//       }
-//    ?>
+    <?php
+      if (isset($_GET['action']) && $_GET['action'] == "logout") {
+           Session::destroy();
+       }
+    ?>
     <ul class="nav navbar-right top-nav">
 
         <li class="dropdown">
